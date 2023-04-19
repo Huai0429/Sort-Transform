@@ -95,6 +95,6 @@ int main()
     }
 
    for (int i = 0; i < S.size(); i++) {
-        cout << M_sorted[i]<< endl;;
+        cout << M_sorted[i]<< endl;
    }
 }
