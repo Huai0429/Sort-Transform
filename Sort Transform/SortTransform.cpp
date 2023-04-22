@@ -1,6 +1,7 @@
 ﻿#include "SortTransform.h"
 using namespace std;
 
+
 bool compare(string str1, string str2)
 {
     if (str1[0] < str2[0])
@@ -35,7 +36,7 @@ void module1_getPQ(vector<string>& M_sorted, vector<int> &P, vector<int> &Q)
         for (int j = 0; j < S.size(); j++)
         {
             if (L[i] == F_temp[j]){
-                P.push_back(j + 1);
+                P.push_back(j);
                 F_temp[j] = '0';
                 break;
             }
@@ -43,7 +44,7 @@ void module1_getPQ(vector<string>& M_sorted, vector<int> &P, vector<int> &Q)
         for (int j = 0; j < S.size(); j++)
         {
             if (F[i] == L_temp[j]) {
-                Q.push_back(j + 1);
+                Q.push_back(j);
                 L_temp[j] = '0';
                 break;
             }
@@ -67,7 +68,7 @@ void module3_getC()
     {
         if (D[i] == 1) 
             j = i;
-        T[Q[i]-1] = j;
+        T[Q[i]] = j;
         C[j]++;
     }
 }
@@ -82,6 +83,73 @@ void module4_restoreS()
         j += C[j];
     }
 }
+void cal_L()
+{
+    for (int i = 0; i < S.size(); i++)
+    {
+        if (X_1[Y[i]] >= 0)
+            T_1[i] = Y[i] + X_1[Y[i]];
+        else
+            T_1[i] = Y[i];
+        H[i] = T_1[i] + X_1[T_1[i]];
+        L_1[i] = T_1[i] - H[i] ;
+    }
+}
+void getCycle()
+{
+    int length = 0,begin = 0,temp,count=0;
+    while (count < S.size())
+    {
+        for (int i = begin; i < S.size(); i++)
+        {
+            if (Check[i] == 0) {
+                begin = i;
+                break;
+            }
+        }
+        temp = begin;
+        while (Check[temp] != 1)
+        {
+            Check[temp] = 1;
+            X_0.push_back(L[temp]);
+            temp = Q[temp];
+            length++;
+            count++;
+        }
+        Cycle_length.push_back(length); 
+        //Y[temp] = begin;
+        for (int j = length-1; j > 0; j--) 
+        {
+            X_1.push_back(j);
+        }
+        X_1.push_back(1-length);
+        length = 0;
+    }
+    cal_L();
+}
+
+char cal_C(int i, int d)
+{
+    cout << ((Y[i] - H[i] + d) % L_1[i]) + H[i] << endl;
+    return X_0[((Y[i] - H[i] + d) % L_1[i]) + H[i]];
+}
+void GetHeights(int i)
+{
+    int h = 0,j = i;
+    for (int m = 0; m < L_1[i]; m++) 
+    {
+        while (h<2)
+        {
+            if (j == 1 || cal_C(j, h) != cal_C(j - 1, h))
+                break;
+            h++;
+        }
+        Height[j] = h;
+        if (h > 0)
+            h--;
+        j = Q[j];
+    }
+}
 int main()
 {
     S = "mississippi~";
@@ -90,11 +158,14 @@ int main()
     module2_getD();
     module3_getC();
     module4_restoreS();
-    for (int i = 0; i < S.size(); i++) {
+    getCycle();
+    GetHeights(5);
+    /*for (int i = 0; i < S.size(); i++) {
         cout << M_sorted[i] << " " << P[i] << "   " << Q[i]<<' '<<D[i] << ' ' << C[i] << ' ' << S_rec[i] << endl;;
+    }*/
+    //cout << Cycle_length[0] << Cycle_length[1] << endl;
+    cout << endl;
+    for (int i = 0; i < S.size(); i++) {
+        cout << L_1[i]<< endl;
     }
-
-   for (int i = 0; i < S.size(); i++) {
-        cout << M_sorted[i]<< endl;
-   }
 }
