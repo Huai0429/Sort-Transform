@@ -92,7 +92,7 @@ void cal_L()
         else
             T_1[i] = Y[i];
         H[i] = T_1[i] + X_1[T_1[i]];
-        L_1[i] = T_1[i] - H[i] ;
+        L_1[i] = T_1[i] - H[i] +1;
     }
 }
 void getCycle()
@@ -117,7 +117,6 @@ void getCycle()
             count++;
         }
         Cycle_length.push_back(length); 
-        //Y[temp] = begin;
         for (int j = length-1; j > 0; j--) 
         {
             X_1.push_back(j);
@@ -130,7 +129,7 @@ void getCycle()
 
 char cal_C(int i, int d)
 {
-    cout << ((Y[i] - H[i] + d) % L_1[i]) + H[i] << endl;
+    cout <<i<<" "<<d <<" " << ((Y[i] - H[i] + d) % L_1[i]) + H[i] << endl;
     return X_0[((Y[i] - H[i] + d) % L_1[i]) + H[i]];
 }
 void GetHeights(int i)
@@ -140,11 +139,12 @@ void GetHeights(int i)
     {
         while (h<2)
         {
-            if (j == 1 || cal_C(j, h) != cal_C(j - 1, h))
+            if (j == 1 || (cal_C(j, h) != cal_C(j - 1, h)))
                 break;
             h++;
         }
         Height[j] = h;
+        cout << "Height" << Height[j] << endl;
         if (h > 0)
             h--;
         j = Q[j];
@@ -159,7 +159,6 @@ int main()
     module3_getC();
     module4_restoreS();
     getCycle();
-    GetHeights(5);
     /*for (int i = 0; i < S.size(); i++) {
         cout << M_sorted[i] << " " << P[i] << "   " << Q[i]<<' '<<D[i] << ' ' << C[i] << ' ' << S_rec[i] << endl;;
     }*/

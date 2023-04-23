@@ -21,4 +21,4 @@ vector<int> Cycle_length;
 vector<int> H(12, 0);
 vector<int> T_1(12, 0);
 vector<int> L_1(12, 0);
-vector<int> Height(12, 0);
+vector<int> Height(12, -1);
