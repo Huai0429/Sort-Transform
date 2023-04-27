@@ -129,8 +129,8 @@ void getCycle()
 
 char cal_C(int i, int d)
 {
-    if (i < 0) i += 12;
-    else if (i >= 12) i -= 12;
+    //if (i < 0) i += 12;
+    //else if (i >= S.size()) i -= 12;
     cout << i << " "; 
     cout << d << " ";
     cout<< ((Y[i] - H[i] + d) % L_1[i]) + H[i] << endl;
@@ -142,16 +142,17 @@ void GetHeights(int i)
     //Height[0] = 0;
     for (int m = 0; m < L_1[i]; m++) 
     {
-        while (h<2)
+        while (h < 2)
         {
+            if (j == 0) { Height[j] = 0; break; }
             if (j == 1 || (cal_C(j, h) != cal_C(j - 1, h))) {
-                cout << "got break at j=" << j << " " << h <<" " << "cal_C(j, h) = " << cal_C(j, h) <<" " << "cal_C(j - 1, h)= " << cal_C(j - 1, h) << endl;
+                cout << "got break at j=" << j << " h=" << h <<" " << "cal_C(j, h) = " << cal_C(j, h) <<" " << "cal_C(j - 1, h)= " << cal_C(j - 1, h) << endl;
                 break;
             }
             h++;
         }
         Height[j] = h;
-        cout << "Height" << Height[j] << endl;
+        cout <<"j= "<< j<<"Height" << Height[j] << endl;
         if (h > 0){
             h--;
         }
@@ -166,7 +167,7 @@ void GetHeights1(int i)
     {
         while (h < 2)
         {
-            if (j == S.size() || (cal_C(j, h) != cal_C(j + 1, h)))
+            if (j == S.size()-1 || (cal_C(j, h) != cal_C(j + 1, h)))
                 break;
             h++;
         }
@@ -198,12 +199,15 @@ int main()
         if (Height[i] < 0 && L_1[i]>(2 / 2))
         {
             cout << "i=" << i << endl;
+            cout << "0" << endl;
             GetHeights(i);
+            cout << "1" << endl;
             GetHeights1(i);
         }
     }
     cout << endl;
+    cout << "  M_sorted" << "   " << "P" << "   " << "Q" << "  " << "Height" <<"   X0" << endl;
     for (int i = 0; i < S.size(); i++) {
-        cout << Height[i]<< endl;
+        cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"   " << X_0[i]<< endl;
     }
 }
