@@ -111,12 +111,17 @@ void getCycle()
         while (Check[temp] != 1)
         {
             Check[temp] = 1;
+            //cout << "111" << L[Q[temp]] <<P[temp]<< endl;
+            //cout << "222" << F[P[temp]] << endl;
+            //Y[P[temp]] = temp;
             X_0.push_back(L[temp]);
+            aa.push_back(L[temp]);
             temp = Q[temp];
             length++;
             count++;
         }
-        Cycle_length.push_back(length); 
+        Cycle.push_back(aa); 
+        aa.clear();
         for (int j = length-1; j > 0; j--) 
         {
             X_1.push_back(j);
@@ -181,33 +186,110 @@ void GetHeights1(int i)
         j = Q[j];
     }
 }
+void propagate(int i,int v)
+{
+    int j = i;
+    for (int m = 0; m < L_1[i]; m++) {
+        if (D_1[j] < 0) {
+            D_1[j] = v;
+        }
+        j = Q[j];
+    }
+}
+bool compare(int i)
+{
+    bool a = true;
+    if (L_1[i] != L_1[i - 1])
+        return false;
+    else
+    {
+        return true;
+    }
+}
+void makeD()
+{
+    for (int i = 1; i < S.size(); i++)
+    {
+        if (Height[i] < 0 && L_1[i]>(2 / 2))
+        {
+            GetHeights(i);
+            GetHeights1(i);
+        }
+    }
+    for (int i = 0; i < S.size(); i++)
+    {
+        if (Height[i] > -1)
+        {
+            if (Height[i] < 2)
+                D_1[i] = 1;
+            else
+                D_1[i] = 0;
+        }
+    }
+    for (int i = 1; i < S.size(); i++)
+    {
+        if (D_1[i] < 0)
+        {
+            if (i == 1 || L_1[i] != L_1[i - 1])
+            {
+                D_1[i] = 1;
+            }
+            else
+            {
+                if (compare(i))
+                    propagate(i, 0);
+                else
+                    propagate(i, 1);
+            }
+        }
+    }
+}
+void restoreS()
+{
+    int j = L.find(S[S.size() - 1]);
+    for (int i = S.size() - 1; i >= 0; i--)
+    {
+        S_rec[i] = L[j];
+        j = T_1[j];
+        C_1[j]--;
+        j += C_1[j];
+    }
+}
+void getC()
+{
+    int j = 0;
+    for (int i = 0; i < S.size(); i++)
+    {
+        if (D_1[i] == 1)
+            j = i;
+        T_1[Q[i]] = j;
+        C_1[j]++;
+    }
+}
 int main()
 {
     S = "mississippi~";
     getRotationMatrix(M, M_sorted);
     module1_getPQ(M_sorted,P,Q);
-    module2_getD();
-    module3_getC();
-    module4_restoreS();
+    //module2_getD();
+    //module3_getC();
+    //module4_restoreS();
     getCycle();
+    makeD();
+    getC();
+    restoreS();
+    for (int i = 0; i < S.size(); i++)
+    {
+        cout << S_rec[i] ;
+    }
     /*for (int i = 0; i < S.size(); i++) {
         cout << M_sorted[i] << " " << P[i] << "   " << Q[i]<<' '<<D[i] << ' ' << C[i] << ' ' << S_rec[i] << endl;;
     }*/
     //cout << Cycle_length[0] << Cycle_length[1] << endl;
-    for (int i = 1; i < S.size(); i++)
-    {
-        if (Height[i] < 0 && L_1[i]>(2 / 2))
-        {
-            cout << "i=" << i << endl;
-            cout << "0" << endl;
-            GetHeights(i);
-            cout << "1" << endl;
-            GetHeights1(i);
-        }
-    }
-    cout << endl;
-    cout << "  M_sorted" << "   " << "P" << "   " << "Q" << "  " << "Height" <<"   X0" << endl;
+    
+    /*cout << endl;
+    cout << "  M_sorted" << "   " << "P" << "   " << "Q" << "  " << "Height" <<"   X0" <<"   L(i)" <<"    CT" << endl;
     for (int i = 0; i < S.size(); i++) {
-        cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"   " << X_0[i]<< endl;
-    }
+        cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"        " << X_0[i]<<"     " << L_1[i] <<"    " <<CT[i]<<"     " <<Y[i]<< endl;
+    }*/
 }
