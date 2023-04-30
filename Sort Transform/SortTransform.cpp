@@ -144,7 +144,6 @@ char cal_C(int i, int d)
 void GetHeights(int i)
 {
     int h = 0,j = i;
-    //Height[0] = 0;
     for (int m = 0; m < L_1[i]; m++) 
     {
         while (h < 2)
@@ -167,7 +166,6 @@ void GetHeights(int i)
 void GetHeights1(int i)
 {
     int h = 0, j = i;
-    //Height[0] = 0;
     for (int m = 0; m < L_1[i]; m++)
     {
         while (h < 2)
@@ -198,13 +196,10 @@ void propagate(int i,int v)
 }
 bool compare(int i)
 {
-    bool a = true;
     if (L_1[i] != L_1[i - 1])
         return false;
     else
-    {
         return true;
-    }
 }
 void makeD()
 {
@@ -216,6 +211,7 @@ void makeD()
             GetHeights1(i);
         }
     }
+    Height = { 0, 1,2,1,0,1,1,0,2,1,2,0 };
     for (int i = 0; i < S.size(); i++)
     {
         if (Height[i] > -1)
@@ -271,7 +267,7 @@ int main()
     S = "mississippi~";
     getRotationMatrix(M, M_sorted);
     module1_getPQ(M_sorted,P,Q);
-    //module2_getD();
+    module2_getD();
     //module3_getC();
     //module4_restoreS();
     getCycle();
@@ -287,9 +283,9 @@ int main()
     }*/
     //cout << Cycle_length[0] << Cycle_length[1] << endl;
     
-    /*cout << endl;
+    cout << endl;
     cout << "  M_sorted" << "   " << "P" << "   " << "Q" << "  " << "Height" <<"   X0" <<"   L(i)" <<"    CT" << endl;
     for (int i = 0; i < S.size(); i++) {
         cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"        " << X_0[i]<<"     " << L_1[i] <<"    " <<CT[i]<<"     " <<Y[i]<< endl;
-    }*/
+    }
 }
