@@ -113,8 +113,8 @@ void getCycle()
             Check[temp] = 1;
             //cout << "111" << L[Q[temp]] <<P[temp]<< endl;
             //cout << "222" << F[P[temp]] << endl;
-            //Y[P[temp]] = temp;
             X_0.push_back(L[temp]);
+            //X_0[Y[temp]] = F[temp];
             aa.push_back(L[temp]);
             temp = Q[temp];
             length++;
@@ -134,23 +134,23 @@ void getCycle()
 
 char cal_C(int i, int d)
 {
-    //if (i < 0) i += 12;
-    //else if (i >= S.size()) i -= 12;
-    cout << i << " "; 
-    cout << d << " ";
-    cout<< ((Y[i] - H[i] + d) % L_1[i]) + H[i] << endl;
+    cout <<Y[i] <<" "<< H[i] <<" " << d << " " << L_1[i] << " "<<H[i]<<" "<< ((Y[i] - H[i] + d) % L_1[i]) + H[i]<<" ";
+    cout<< X_0[((Y[i] - H[i] + d) % L_1[i]) + H[i]] << endl;
     return X_0[((Y[i] - H[i] + d) % L_1[i]) + H[i]];
 }
 void GetHeights(int i)
 {
     int h = 0,j = i;
+    cout << "GetHeights" << endl;
     for (int m = 0; m < L_1[i]; m++) 
     {
+        cout << "m = " << m << endl;
         while (h < 2)
         {
+            cout << "j = " << j <<"  h = "<<h << endl;
             if (j == 0) { Height[j] = 0; break; }
-            if (j == 1 || (cal_C(j, h) != cal_C(j - 1, h))) {
-                cout << "got break at j=" << j << " h=" << h <<" " << "cal_C(j, h) = " << cal_C(j, h) <<" " << "cal_C(j - 1, h)= " << cal_C(j - 1, h) << endl;
+            if ((cal_C(j, h) != cal_C(j - 1, h))) {
+                cout << "got break at j=" << j << " h=" << h <<" " /* << "cal_C(j, h) = " << cal_C(j, h) << " " << "cal_C(j - 1, h)= " << cal_C(j - 1, h) */ << endl;
                 break;
             }
             h++;
@@ -166,11 +166,14 @@ void GetHeights(int i)
 void GetHeights1(int i)
 {
     int h = 0, j = i;
+    cout << endl<< "GetHeights 1" << endl;
     for (int m = 0; m < L_1[i]; m++)
     {
         while (h < 2)
         {
-            if (j == S.size()-1 || (cal_C(j, h) != cal_C(j + 1, h)))
+            if (j == S.size() - 1)
+                break;
+            if ((cal_C(j, h) != cal_C(j + 1, h)))   
                 break;
             h++;
         }
@@ -211,7 +214,7 @@ void makeD()
             GetHeights1(i);
         }
     }
-    Height = { 0, 1,2,1,0,1,1,0,2,1,2,0 };
+    //Height = { 0, 1,2,1,0,1,1,0,2,1,2,0 };
     for (int i = 0; i < S.size(); i++)
     {
         if (Height[i] > -1)
@@ -286,6 +289,6 @@ int main()
     cout << endl;
     cout << "  M_sorted" << "   " << "P" << "   " << "Q" << "  " << "Height" <<"   X0" <<"   L(i)" <<"    CT" << endl;
     for (int i = 0; i < S.size(); i++) {
-        cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"        " << X_0[i]<<"     " << L_1[i] <<"    " <<CT[i]<<"     " <<Y[i]<< endl;
+        cout << M_sorted[i] << " " << P[i] << "   " << Q[i] <<"   " << Height[i] <<"        " << X_0[i]<<"     " << L_1[i] <<"    " <<CT[i]<<"     " <<Y[i]<<"    " << H[i]<<"   " <<T_1[i]<<"   " <<X_1[i]<< endl;
     }
 }
