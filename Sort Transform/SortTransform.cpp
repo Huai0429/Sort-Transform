@@ -204,15 +204,25 @@ bool compare(int i)
     else
         return true;
 }
+void getHeight_huai(int i)
+{
+    for (int j = 0; j < 2; j++) {
+        if (CT[i][j] == CT[i - 1][j])
+        {
+            Height[i]++;
+        }
+    }
+}
 void makeD()
 {
     for (int i = 1; i < S.size(); i++)
     {
-        if (Height[i] < 0 && L_1[i]>(2 / 2))
+        /*if (Height[i] < 0 && L_1[i]>(2 / 2))
         {
             GetHeights(i);
             GetHeights1(i);
-        }
+        }*/
+        getHeight_huai(i);
     }
     //Height = { 0, 1,2,1,0,1,1,0,2,1,2,0 };
     for (int i = 0; i < S.size(); i++)

@@ -23,5 +23,5 @@ vector<char> aa;
 vector<int> H(12, 0);
 vector<int> T_1(12, 0);
 vector<int> L_1(12, 0);
-vector<int> Height(12, -1);
+vector<int> Height(12, 0);
 vector<int> D_1(12, -1);
